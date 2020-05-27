@@ -9,16 +9,49 @@ export interface BoardProps {
 export interface BoardState {
     squares: Array<String>;
     xIsNext: boolean;
+    lines:number[][];
 }
 
 export class Board extends React.Component<BoardProps, BoardState> {
 
-    constructor(props: any) {
+    constructor(props: BoardProps) {
         super(props);
+
+        //Calculate winner items
+        var tmplines:number[][] = [];
+
+        for(let i = 0; i < props.size; i++) {
+            tmplines[i] = Array(props.size)
+            for(let j = 0; j < props.size; j++) {
+                tmplines[i][j] = i * props.size + j
+            }
+        }        
+        const winnerLines:any = [];
+
+        for(let i = 0; i <= (props.size - 3); i++) {
+            for(let j = 0; j <= (props.size - 3); j++) {
+                    winnerLines.push([tmplines[i][j], tmplines[i][j+1], tmplines[i][j+2]]) //1
+                    winnerLines.push([tmplines[i+1][j], tmplines[i+1][j+1], tmplines[i+1][j+2]]) //2
+                    winnerLines.push([tmplines[i+2][j], tmplines[i+2][j+1], tmplines[i+2][j+2]]) //3
+
+                    winnerLines.push([tmplines[i][j], tmplines[i+1][j], tmplines[i+2][j]]) //4
+                    winnerLines.push([tmplines[i][j+1], tmplines[i+1][j+1], tmplines[i+2][j+1]]) //5
+                    winnerLines.push([tmplines[i][j+2], tmplines[i+1][j+2], tmplines[i+2][j+2]]) //6
+
+                    winnerLines.push([tmplines[i][j], tmplines[i+1][j+1], tmplines[i+2][j+2]]) //7
+                    winnerLines.push([tmplines[i][j+2], tmplines[i+1][j+1], tmplines[i+2][j]]) //8
+            }
+        }
+
+        console.log(winnerLines);
+
         this.state = {
             squares: Array(this.props.size * this.props.size).fill(null),
-            xIsNext: true
+            xIsNext: true,
+            lines: winnerLines,
         };
+
+        
     }
 
     public handleClick(i: number) {
@@ -53,7 +86,7 @@ export class Board extends React.Component<BoardProps, BoardState> {
         for (let i = 0; i < this.props.size; i++) {
             let rows = []
             for (let j = 0; j < this.props.size; j++) {
-                rows.push(this.renderSquare(i * 5 + j));
+                rows.push(this.renderSquare(i * this.props.size + j));
             }
             items.push(<div className="board-row">{rows}</div>)
         }
@@ -62,29 +95,13 @@ export class Board extends React.Component<BoardProps, BoardState> {
 
     }
 
-    public click(num: number) {
-        console.log('Click ' + String(num) + ' !!!');
-    }
-
     private calculateWinner(squares: Array<String>): String {
-        return ''
-
-        // const lines = [
-        //     [0, 1, 2],
-        //     [3, 4, 5],
-        //     [6, 7, 8],
-        //     [0, 3, 6],
-        //     [1, 4, 7],
-        //     [2, 5, 8],
-        //     [0, 4, 8],
-        //     [2, 4, 6],
-        // ];
-        // for (let i = 0; i < lines.length; i++) {
-        //     const [a, b, c] = lines[i];
-        //     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        //         return squares[a];
-        //     }
-        // }
-        // return '';
+        for (let i = 0; i < this.state.lines.length; i++) {
+            const [a, b, c] = this.state.lines[i];
+            if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+                return squares[a];
+            }
+        }
+        return '';
     }
 }

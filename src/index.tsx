@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {Test01} from './Test01';
 import { Board } from './Board/Board'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Test01 />
-    <Board size = {7}/>
+    <Board size = {20}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
