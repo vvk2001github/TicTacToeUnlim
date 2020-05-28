@@ -1,4 +1,5 @@
 import React from 'react'
+import TextField from '@material-ui/core/TextField';
 import './Board.css'
 import { Square } from '../Square'
 
@@ -91,7 +92,7 @@ export class Board extends React.Component<BoardProps, BoardState> {
             items.push(<div className="board-row">{rows}</div>)
         }
 
-    return (<div><div className="status">{status}</div>{items}</div>)
+    return (<div><TextField id="outlined-basic" value={status} variant="outlined" size="small" color="primary" />{items}</div>)
 
     }
 

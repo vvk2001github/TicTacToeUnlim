@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Container from '@material-ui/core/Container';
 import './index.css';
 import { Board } from './Board/Board'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Board size = {20}/>
+    <Container maxWidth="xs">
+      <Board size = {5}/>
+    </Container>
   </React.StrictMode>,
   document.getElementById('root')
 );
