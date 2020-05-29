@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 export interface SquareProps {
     boardclick: () => void;
-    value: String
+    value: String;
+    num: number;
 }
 
 export function Square(props:SquareProps) {
@@ -25,7 +26,7 @@ export function Square(props:SquareProps) {
     const classes = useStyles()
         
         return (
-            <Button variant="contained" color="primary" onClick={() => props.boardclick()} className={classes.square}>
+            <Button variant="contained" color="primary" onClick={() => props.boardclick()} className={classes.square} key={props.num}>
                 {props.value}
             </Button>
         )

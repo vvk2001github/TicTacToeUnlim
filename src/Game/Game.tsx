@@ -1,10 +1,12 @@
 import React from 'react'
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { Board } from '../Board/Board'
 
 interface GameState {
     xIsNext: boolean;
     lines:number[][];
+    stepNumber: number;
     history: Array<Array<String>>;
 }
 
@@ -47,17 +49,28 @@ export class Game extends React.Component<GameProps, GameState> {
             xIsNext: true,
             history: Array(1).fill(Array(this.props.sizeField * this.props.sizeField).fill(null)),
             lines: winnerLines,
+            stepNumber: 1,
         }
     }
 
+    jumpTo(step: number) {
+        this.setState({
+            stepNumber: step,
+            xIsNext: (step % 2) === 1,
+        });
+    }
+
     public handleClick(i: number) {
-        const squares = this.state.history[this.state.history.length - 1];
+        const history: Array<Array<String>> = this.state.history.slice(0, this.state.stepNumber);
+        const squares: Array<String> = history[history.length - 1].slice();
         if(squares[i] || (this.calculateWinner(squares) !== '')) return;
         squares[i] = this.state.xIsNext ? 'X' : 'O';
+        history.push(squares)
         this.setState({
-            xIsNext: !this.state.xIsNext
+            history: history,
+            xIsNext: !this.state.xIsNext,
+            stepNumber: history.length,
         });
-        console.log('Game Handle Click!!!')
     }
 
     private calculateWinner(squares: Array<String>): String {
@@ -71,9 +84,9 @@ export class Game extends React.Component<GameProps, GameState> {
     }
 
     render() {
-        const current: Array<String> = this.state.history[this.state.history.length - 1]
+        //const current: Array<String> = this.state.history[this.state.history.length - 1]
 
-        const squares = this.state.history[this.state.history.length - 1];
+        const squares: Array<String> = this.state.history[this.state.stepNumber - 1];
         const winner: String = this.calculateWinner(squares)
         
         let status: String;
@@ -84,14 +97,23 @@ export class Game extends React.Component<GameProps, GameState> {
             status = 'Next move: ' + (this.state.xIsNext ? 'X' : 'O');
         }
 
+        const moves = this.state.history.map((step, move) => {
+            const desc = move ?  'Go To Move #' + move : 'Start game';
+            return (
+                <li key={move}>
+                    <Button variant="contained" color="primary" onClick={() => this.jumpTo(move + 1)}>{desc}</Button>
+                </li>
+            );
+        });
+
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board size = {this.props.sizeField} squares = {current} boardclick={(i) => this.handleClick(i)}/>
+                    <Board size = {this.props.sizeField} squares = {squares} boardclick={(i) => this.handleClick(i)}/>
                 </div>
             <div className="game-info">
                 <div><TextField id="outlined-basic" value={status} variant="outlined" size="small" color="primary" /></div>
-                <ol>{/* TODO */}</ol>
+                <ol>{moves}</ol>
             </div>
             </div>
         );
