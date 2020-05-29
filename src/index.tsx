@@ -8,7 +8,7 @@ import { Game } from './Game/Game';
 ReactDOM.render(
   <React.StrictMode>
     <Container maxWidth="sm">
-      <Game sizeField = {3}/>
+      <Game sizeField = {7}/>
     </Container>
   </React.StrictMode>,
   document.getElementById('root')

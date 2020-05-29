@@ -1,6 +1,7 @@
 import React from 'react'
+import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Box from '@material-ui/core/Box';
 import { Board } from '../Board/Board'
 
 interface GameState {
@@ -84,8 +85,6 @@ export class Game extends React.Component<GameProps, GameState> {
     }
 
     render() {
-        //const current: Array<String> = this.state.history[this.state.history.length - 1]
-
         const squares: Array<String> = this.state.history[this.state.stepNumber - 1];
         const winner: String = this.calculateWinner(squares)
         
@@ -101,7 +100,7 @@ export class Game extends React.Component<GameProps, GameState> {
             const desc = move ?  'Go To Move #' + move : 'Start game';
             return (
                 <li key={move}>
-                    <Button variant="contained" color="primary" onClick={() => this.jumpTo(move + 1)}>{desc}</Button>
+                    <Button variant="contained" color="secondary" onClick={() => this.jumpTo(move + 1)}>{desc}</Button>
                 </li>
             );
         });
@@ -112,7 +111,7 @@ export class Game extends React.Component<GameProps, GameState> {
                     <Board size = {this.props.sizeField} squares = {squares} boardclick={(i) => this.handleClick(i)}/>
                 </div>
             <div className="game-info">
-                <div><TextField id="outlined-basic" value={status} variant="outlined" size="small" color="primary" /></div>
+                <Box width={40 * this.props.sizeField}><Alert variant="filled" severity="success" icon={false} >{status}</Alert></Box>
                 <ol>{moves}</ol>
             </div>
             </div>
