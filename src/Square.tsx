@@ -25,7 +25,7 @@ export function Square(props:SquareProps) {
     const classes = useStyles()
         
         return (
-            <Button variant="contained" color="primary" onClick={props.boardclick} className={classes.square}>
+            <Button variant="contained" color="primary" onClick={() => props.boardclick()} className={classes.square}>
                 {props.value}
             </Button>
         )

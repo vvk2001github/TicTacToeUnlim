@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Container from '@material-ui/core/Container';
 import './index.css';
-import { Board } from './Board/Board'
 import * as serviceWorker from './serviceWorker';
+import { Game } from './Game/Game';
 
 ReactDOM.render(
   <React.StrictMode>
     <Container maxWidth="sm">
-      <Board size = {10}/>
+      <Game sizeField = {3}/>
     </Container>
   </React.StrictMode>,
   document.getElementById('root')
