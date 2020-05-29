@@ -78,9 +78,9 @@ export class Board extends React.Component<BoardProps, BoardState> {
         let status: String;
 
         if (winner !== '') {
-            status = 'Выиграл ' + String(winner)
+            status = 'Winner ' + String(winner)
         } else {
-            status = 'Следующий ход: ' + (this.state.xIsNext ? 'X' : 'O');
+            status = 'Next move: ' + (this.state.xIsNext ? 'X' : 'O');
         }
 
         let items = []

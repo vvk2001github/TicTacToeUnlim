@@ -7,8 +7,8 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Container maxWidth="xs">
-      <Board size = {5}/>
+    <Container maxWidth="sm">
+      <Board size = {10}/>
     </Container>
   </React.StrictMode>,
   document.getElementById('root')
